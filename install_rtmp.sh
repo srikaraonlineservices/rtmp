@@ -71,7 +71,8 @@ http {
         }
 
         location /stat.xsl {
-            root $NGINX_DIR/html;
+            # must use actual path, not shell variable
+            root /usr/local/nginx/html;
         }
 
         # HLS playback
@@ -92,10 +93,9 @@ echo "=== Copying RTMP stats stylesheet ==="
 sudo cp ../nginx-rtmp-module/stat.xsl $NGINX_DIR/html/
 
 echo "=== Starting nginx ==="
-sudo $NGINX_DIR/sbin/nginx
+sudo $NGINX_DIR/sbin/nginx || sudo $NGINX_DIR/sbin/nginx -s reload
 
 echo "=== Done! ==="
-echo "Push RTMP: rtmp://YOUR_SERVER_IP/live/streamkey"
-echo "Play HLS:  http://YOUR_SERVER_IP:8080/hls/streamkey.m3u8"
-echo "Stats page: http://YOUR_SERVER_IP:8080/stat"
-EOF
+echo "Push RTMP: rtmp://116.202.221.83/live/streamkey"
+echo "Play HLS:  http://116.202.221.83:8080/hls/streamkey.m3u8"
+echo "Stats page: http://116.202.221.83:8080/stat"
