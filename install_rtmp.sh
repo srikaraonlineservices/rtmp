@@ -1,5 +1,6 @@
 #!/bin/bash
 # RTMP + HLS + HTTPS streaming server installer for Ubuntu 20.04/22.04
+# with automatic certificate renewal
 
 set -e
 
@@ -119,6 +120,9 @@ echo "=== Opening firewall ports ==="
 sudo ufw allow 1935/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
+
+echo "=== Setting up automatic certificate renewal ==="
+(crontab -l 2>/dev/null; echo "0 3 * * * certbot renew --quiet --post-hook \"/usr/local/nginx/sbin/nginx -s reload\"") | crontab -
 
 echo "=== Done! ==="
 echo "Push RTMP: rtmp://116.202.221.83/live/streamkey"
